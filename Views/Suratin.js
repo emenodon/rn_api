@@ -56,23 +56,9 @@ class Suratin extends Component {
       fetch(urlAksi, {
         method: "post",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/x-www-form-urlencoded"
         },
-        body:
-          "no_surat=" +
-          this.state.no_surat +
-          "&dari_klien=" +
-          this.state.dari_klien +
-          "&tgl_surat=" +
-          this.state.tgl_surat +
-          "&tgl_terima=" +
-          this.state.tgl_terima +
-          "&penerima=" +
-          this.state.penerima +
-          "&deskripsi=" +
-          this.state.deskripsi +
-          "&subject_id=" +
-          this.state.subject_id,
+        body:"no_surat="+this.state.no_surat+"&dari_klien="+this.state.dari_klien+"&tgl_surat="+this.state.tgl_surat+"&tgl_terima="+this.state.tgl_terima+"&penerima="+this.state.penerima+"&deskripsi="+this.state.deskripsi+"&subject_id="+this.state.subject_id
       })
         .then((response) => response.json())
         .then((json) => {

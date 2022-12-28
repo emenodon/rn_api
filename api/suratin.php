@@ -1,4 +1,4 @@
-<?php 
+<?php
 error_reporting(0);
 
 $host = "localhost";
@@ -6,23 +6,36 @@ $user = "root";
 $pass = "littlepony";
 $db   = "myletter";
 
-$koneksi = mysqli_connect($host,$user,$pass,$db);
+$koneksi = mysqli_connect($host, $user, $pass, $db);
 
 $op = $_GET['op'];
-switch($op){
-    case '':normal();break;
-    default:normal();break;
-    case 'create':create();break;
-    case 'detail':detail();break;
-    case 'update':update();break;
-    case 'delete':delete();break;
+switch ($op) {
+    case '':
+        normal();
+        break;
+    default:
+        normal();
+        break;
+    case 'create':
+        create();
+        break;
+    case 'detail':
+        detail();
+        break;
+    case 'update':
+        update();
+        break;
+    case 'delete':
+        delete();
+        break;
 }
 
-function normal(){
+function normal()
+{
     global $koneksi;
     $sql1 = "select * from suratins order by id desc";
-    $q1 = mysqli_query($koneksi,$sql1);
-    while($r1 = mysqli_fetch_array($q1)){
+    $q1 = mysqli_query($koneksi, $sql1);
+    while ($r1 = mysqli_fetch_array($q1)) {
         $hasil[] = array(
             'id' => $r1['id'],
             'no_surat' => $r1['no_surat'],
@@ -38,7 +51,8 @@ function normal(){
     echo json_encode($data);
 }
 
-function create(){
+function create()
+{
     global $koneksi;
     $no_surat = $_POST['no_surat'];
     $dari_klien = $_POST['dari_klien'];
@@ -47,11 +61,11 @@ function create(){
     $penerima = $_POST['penerima'];
     $deskripsi = $_POST['deskripsi'];
     $subject_id = $_POST['subject_id'];
-    $hasil = "Gagal dimasukkan data";
-    if($no_surat and $dari_klien and $tgl_surat and $tgl_terima and $penerima and $deskripsi and $subject_id){
-        $sql1 = "insert into suratins(no_surat,dari_klien,tgl_surat,tgl_terima,penerima,deskripsi,subject_id) values ('$no_surat','$dari_klien','$tgl_surat,'$tgl_terima,'$penerima,'$deskripsi,'$subject_id')";
-        $q1 = mysqli_query($koneksi,$sql1);
-        if($q1){
+    $hasil = "Gagal memasukkan data";
+    if ($no_surat && $dari_klien && $tgl_surat && $tgl_terima && $penerima && $deskripsi && $subject_id) {
+        $sql1 = "insert into suratins (no_surat,dari_klien,tgl_surat,tgl_terima,penerima,deskripsi,subject_id) values ('$no_surat','$dari_klien','$tgl_surat','$tgl_terima','$penerima','$deskripsi','$subject_id')";
+        $q1 = mysqli_query($koneksi, $sql1);
+        if ($q1) {
             $hasil = "Berhasil menambahkan data";
         }
     }
@@ -59,12 +73,13 @@ function create(){
     echo json_encode($data);
 }
 
-function detail(){
+function detail()
+{
     global $koneksi;
     $id = $_GET['id'];
     $sql1 = "select * from suratins where id = '$id'";
-    $q1 = mysqli_query($koneksi,$sql1);
-    while($r1 = mysqli_fetch_array($q1)){
+    $q1 = mysqli_query($koneksi, $sql1);
+    while ($r1 = mysqli_fetch_array($q1)) {
         $hasil[] = array(
             'id' => $r1['id'],
             'no_surat' => $r1['no_surat'],
@@ -80,7 +95,8 @@ function detail(){
     echo json_encode($data);
 }
 
-function update(){
+function update()
+{
     global $koneksi;
     $id = $_GET['id'];
     $no_surat = $_POST['no_surat'];
@@ -90,32 +106,32 @@ function update(){
     $penerima = $_POST['penerima'];
     $deskripsi = $_POST['deskripsi'];
     $subject_id = $_POST['subject_id'];
-    if($no_surat){
+    if ($no_surat) {
         $set[] = "no_surat='$no_surat'";
     }
-    if($dari_klien){
+    if ($dari_klien) {
         $set[] = "dari_klien='$dari_klien'";
     }
-    if($tgl_surat){
+    if ($tgl_surat) {
         $set[] = "tgl_surat='$tgl_surat'";
     }
-    if($tgl_terima){
+    if ($tgl_terima) {
         $set[] = "tgl_terima='$tgl_terima'";
     }
-    if($penerima){
+    if ($penerima) {
         $set[] = "penerima='$penerima'";
     }
-    if($deskripsi){
+    if ($deskripsi) {
         $set[] = "deskripsi='$deskripsi'";
     }
-    if($subject_id){
+    if ($subject_id) {
         $set[] = "subject_id='$subject_id'";
     }
     $hasil = "Gagal melakukan update data";
-    if($no_surat or $dari_klien or $tgl_surat or $tgl_terima or $penerima or $deskripsi or $subject_id){
-        $sql1 = "update suratins set ".implode(",",$set)." where id = '$id'";
-        $q1 = mysqli_query($koneksi,$sql1);
-        if($q1){
+    if ($no_surat or $dari_klien or $tgl_surat or $tgl_terima or $penerima or $deskripsi or $subject_id) {
+        $sql1 = "update suratins set " . implode(",", $set) . " where id = '$id'";
+        $q1 = mysqli_query($koneksi, $sql1);
+        if ($q1) {
             $hasil = "Data berhasil diupdate";
         }
     }
@@ -123,14 +139,15 @@ function update(){
     echo json_encode($data);
 }
 
-function delete(){
+function delete()
+{
     global $koneksi;
     $id = $_GET['id'];
     $sql1 = "delete from suratins where id = '$id'";
-    $q1 = mysqli_query($koneksi,$sql1);
-    if($q1){
+    $q1 = mysqli_query($koneksi, $sql1);
+    if ($q1) {
         $hasil = "Berhasil menghapus data";
-    }else{
+    } else {
         $hasil = "Gagal menghapus data";
     }
     $data['data']['result'] = $hasil;
