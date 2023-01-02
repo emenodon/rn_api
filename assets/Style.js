@@ -5,11 +5,11 @@ export const style = StyleSheet.create({
         flex: 1,
     },
     viewForm: {
-        flex: 4,
+        flex: 2.5,
         padding: 10,
     },
     viewData: {
-        flex: 1.5,
+        flex: 1,
         marginTop: 30,
     },
     textInput: {

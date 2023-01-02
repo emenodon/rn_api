@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, TextInput, Button } from "react-native";
+import { View, Text, TextInput, Button, ScrollView } from "react-native";
 import { style } from "../assets/Style";
 // import DatePicker from "react-native-date-picker";
 // import { Picker } from "@react-native-picker/picker";
@@ -102,7 +102,7 @@ class Suratin extends Component {
   render() {
     return (
       <View style={style.viewWrapper}>
-        <View style={style.viewData}>
+        <ScrollView style={style.viewData}>
           {this.state.listData.map((val, index) => (
             <View style={style.viewList} key={index}>
               <Text style={style.textListNama}>{val.dari_klien}</Text>
@@ -118,8 +118,9 @@ class Suratin extends Component {
               </Text>
             </View>
           ))}
-        </View>
+        </ScrollView>
         <View style={style.viewForm}>
+        <ScrollView>
           <TextInput
             style={style.textInput}
             placeholder="Masukkan No Surat"
@@ -177,6 +178,7 @@ class Suratin extends Component {
           <Button
             title="Masukkan Data"
             onPress={() => this.klikSimpan()}></Button>
+        </ScrollView>
         </View>
       </View>
     );
