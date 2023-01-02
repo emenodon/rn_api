@@ -19,7 +19,7 @@ class Suratin extends Component {
       idEdit: null,
       open: 0,
     };
-    this.url = "http://192.168.0.102/api/suratin.php";
+    this.url = "http://192.168.0.101/api/suratin.php";
   }
   componentDidMount() {
     this.ambilListData();
@@ -69,6 +69,7 @@ class Suratin extends Component {
           this.setState({ penerima: "" });
           this.setState({ deskripsi: "" });
           this.setState({ subject_id: "" });
+          this.setState({ idEdit: "" });
           this.ambilListData();
         });
     }
