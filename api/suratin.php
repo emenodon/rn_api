@@ -33,7 +33,7 @@ switch ($op) {
 function normal()
 {
     global $koneksi;
-    $sql1 = "select * from suratins order by id desc";
+    $sql1 = "select * from note order by id desc";
     $q1 = mysqli_query($koneksi, $sql1);
     while ($r1 = mysqli_fetch_array($q1)) {
         $hasil[] = array(
@@ -54,7 +54,7 @@ function create()
     $deskripsi = $_POST['deskripsi'];
     $hasil = "Gagal memasukkan data";
     if ($title && $deskripsi) {
-        $sql1 = "insert into suratins (title,deskripsi) values ('$title','$deskripsi')";
+        $sql1 = "insert into note (title,deskripsi) values ('$title','$deskripsi')";
         $q1 = mysqli_query($koneksi, $sql1);
         if ($q1) {
             $hasil = "Berhasil menambahkan data";
@@ -68,7 +68,7 @@ function detail()
 {
     global $koneksi;
     $id = $_GET['id'];
-    $sql1 = "select * from suratins where id = '$id'";
+    $sql1 = "select * from note where id = '$id'";
     $q1 = mysqli_query($koneksi, $sql1);
     while ($r1 = mysqli_fetch_array($q1)) {
         $hasil[] = array(
@@ -96,7 +96,7 @@ function update()
     }
     $hasil = "Gagal melakukan update data";
     if ($title or $deskripsi) {
-        $sql1 = "update suratins set " . implode(",", $set) . " where id = '$id'";
+        $sql1 = "update note set " . implode(",", $set) . " where id = '$id'";
         $q1 = mysqli_query($koneksi, $sql1);
         if ($q1) {
             $hasil = "Data berhasil diupdate";
@@ -110,7 +110,7 @@ function delete()
 {
     global $koneksi;
     $id = $_GET['id'];
-    $sql1 = "delete from suratins where id = '$id'";
+    $sql1 = "delete from note where id = '$id'";
     $q1 = mysqli_query($koneksi, $sql1);
     if ($q1) {
         $hasil = "Berhasil menghapus data";
