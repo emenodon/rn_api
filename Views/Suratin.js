@@ -1,25 +1,20 @@
 import React, { Component } from "react";
-import { View, Text, TextInput, Button, ScrollView } from "react-native";
+import { View, Text, ScrollView } from "react-native";
+import { TextInput, Button } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { style } from "../assets/Style";
-// import DatePicker from "react-native-date-picker";
-// import { Picker } from "@react-native-picker/picker";
 
 class Suratin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      no_surat: "",
-      dari_klien: "",
-      tgl_surat: "",
-      tgl_terima: "",
-      penerima: "",
+      title: "",
       deskripsi: "",
-      subject_id: "",
       listData: [],
       idEdit: null,
       open: 0,
     };
-    this.url = "http://192.168.0.101/api/suratin.php";
+    this.url = "http://192.168.0.102/api/notes.php";
   }
   componentDidMount() {
     this.ambilListData();
@@ -37,13 +32,8 @@ class Suratin extends Component {
   }
   klikSimpan() {
     if (
-      this.state.no_surat == "" ||
-      this.state.dari_klien == "" ||
-      this.state.tgl_surat == "" ||
-      this.state.tgl_terima == "" ||
-      this.state.penerima == "" ||
-      this.state.deskripsi == "" ||
-      this.state.subject_id == ""
+      this.state.title == "" ||
+      this.state.deskripsi == ""
     ) {
       alert("Silakan lengkapi form");
     } else {
@@ -58,17 +48,12 @@ class Suratin extends Component {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"
         },
-        body:"no_surat="+this.state.no_surat+"&dari_klien="+this.state.dari_klien+"&tgl_surat="+this.state.tgl_surat+"&tgl_terima="+this.state.tgl_terima+"&penerima="+this.state.penerima+"&deskripsi="+this.state.deskripsi+"&subject_id="+this.state.subject_id
+        body:"title="+this.state.title+"&deskripsi="+this.state.deskripsi
       })
         .then((response) => response.json())
         .then((json) => {
-          this.setState({ no_surat: "" });
-          this.setState({ dari_klien: "" });
-          this.setState({ tgl_surat: "" });
-          this.setState({ tgl_terima: "" });
-          this.setState({ penerima: "" });
+          this.setState({ title: "" });
           this.setState({ deskripsi: "" });
-          this.setState({ subject_id: "" });
           this.setState({ idEdit: "" });
           this.ambilListData();
         });
@@ -78,13 +63,8 @@ class Suratin extends Component {
     await fetch(this.url + "/?op=detail&id=" + id)
       .then((response) => response.json())
       .then((json) => {
-        this.setState({ no_surat: json.data.result[0].no_surat });
-        this.setState({ dari_klien: json.data.result[0].dari_klien });
-        this.setState({ tgl_surat: json.data.result[0].tgl_surat });
-        this.setState({ tgl_terima: json.data.result[0].tgl_terima });
-        this.setState({ penerima: json.data.result[0].penerima });
+        this.setState({ title: json.data.result[0].title });
         this.setState({ deskripsi: json.data.result[0].deskripsi });
-        this.setState({ subject_id: json.data.result[0].subject_id });
         this.setState({ idEdit: id });
       });
   }
@@ -102,65 +82,39 @@ class Suratin extends Component {
   render() {
     return (
       <View style={style.viewWrapper}>
+        
         <ScrollView style={style.viewData}>
           {this.state.listData.map((val, index) => (
             <View style={style.viewList} key={index}>
-              <Text style={style.textListNama}>{val.dari_klien}</Text>
-              <Text
+              <Text style={style.textListNama}>{val.title}</Text>
+              <Button
                 style={style.textListEdit}
                 onPress={() => this.klikEdit(val.id)}>
-                Edit
-              </Text>
-              <Text
+                <Icon name="pencil" size={20} solid />
+              </Button>
+              <Button
                 style={style.textListDelete}
                 onPress={() => this.klikDelete(val.id)}>
-                Delete
-              </Text>
+                <Icon name="trash-can-outline" size={20} color="#900" solid />
+              </Button>
             </View>
           ))}
         </ScrollView>
         <View style={style.viewForm}>
+          <Text style={style.title}>Form Input</Text>
         <ScrollView>
           <TextInput
             style={style.textInput}
-            placeholder="Masukkan No Surat"
-            value={this.state.no_surat}
+            mode="outlined"
+            label="Title"
+            placeholder="Masukkan Judul"
+            value={this.state.title}
             onChangeText={(text) =>
-              this.setState({ no_surat: text })
+              this.setState({ title: text })
             }></TextInput>
           <TextInput
             style={style.textInput}
-            placeholder="Masukkan Klien"
-            value={this.state.dari_klien}
-            onChangeText={(text) =>
-              this.setState({ dari_klien: text })
-            }></TextInput>
-
-          <TextInput
-            style={style.textInput}
-            placeholder="Masukkan tanggal surat"
-            value={this.state.tgl_surat}
-            onChangeText={(text) =>
-              this.setState({ tgl_surat: text })
-            }></TextInput>
-
-          <TextInput
-            style={style.textInput}
-            placeholder="Masukkan tanggal terima"
-            value={this.state.tgl_terima}
-            onChangeText={(text) =>
-              this.setState({ tgl_terima: text })
-            }></TextInput>
-
-          <TextInput
-            style={style.textInput}
-            placeholder="Masukkan Penerima"
-            value={this.state.penerima}
-            onChangeText={(text) =>
-              this.setState({ penerima: text })
-            }></TextInput>
-          <TextInput
-            style={style.textInput}
+            mode="outlined"
             multiline={true}
             numberOfLines={4}
             placeholder="Masukkan Deskripsi"
@@ -168,16 +122,9 @@ class Suratin extends Component {
             onChangeText={(text) =>
               this.setState({ deskripsi: text })
             }></TextInput>
-          <TextInput
-            style={style.textInput}
-            placeholder="Masukkan subject_id"
-            value={this.state.subject_id}
-            onChangeText={(text) =>
-              this.setState({ subject_id: text })
-            }></TextInput>
           <Button
-            title="Masukkan Data"
-            onPress={() => this.klikSimpan()}></Button>
+            mode="contained"
+            onPress={() => this.klikSimpan()}>Masukkan Data</Button>
         </ScrollView>
         </View>
       </View>

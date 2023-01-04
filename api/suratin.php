@@ -4,7 +4,7 @@ error_reporting(0);
 $host = "localhost";
 $user = "root";
 $pass = "littlepony";
-$db   = "myletter";
+$db   = "notes";
 
 $koneksi = mysqli_connect($host, $user, $pass, $db);
 
@@ -38,13 +38,9 @@ function normal()
     while ($r1 = mysqli_fetch_array($q1)) {
         $hasil[] = array(
             'id' => $r1['id'],
-            'no_surat' => $r1['no_surat'],
-            'dari_klien' => $r1['dari_klien'],
-            'tgl_surat' => $r1['tgl_surat'],
-            'tgl_terima' => $r1['tgl_terima'],
-            'penerima' => $r1['penerima'],
+            'title' => $r1['title'],
             'deskripsi' => $r1['deskripsi'],
-            'subject_id' => $r1['subject_id']
+            'tanggal_input' => $r1['tanggal_input']
         );
     }
     $data['data']['result'] = $hasil;
@@ -54,16 +50,11 @@ function normal()
 function create()
 {
     global $koneksi;
-    $no_surat = $_POST['no_surat'];
-    $dari_klien = $_POST['dari_klien'];
-    $tgl_surat = $_POST['tgl_surat'];
-    $tgl_terima = $_POST['tgl_terima'];
-    $penerima = $_POST['penerima'];
+    $title = $_POST['title'];
     $deskripsi = $_POST['deskripsi'];
-    $subject_id = $_POST['subject_id'];
     $hasil = "Gagal memasukkan data";
-    if ($no_surat && $dari_klien && $tgl_surat && $tgl_terima && $penerima && $deskripsi && $subject_id) {
-        $sql1 = "insert into suratins (no_surat,dari_klien,tgl_surat,tgl_terima,penerima,deskripsi,subject_id) values ('$no_surat','$dari_klien','$tgl_surat','$tgl_terima','$penerima','$deskripsi','$subject_id')";
+    if ($title && $deskripsi) {
+        $sql1 = "insert into suratins (title,deskripsi) values ('$title','$deskripsi')";
         $q1 = mysqli_query($koneksi, $sql1);
         if ($q1) {
             $hasil = "Berhasil menambahkan data";
@@ -82,13 +73,9 @@ function detail()
     while ($r1 = mysqli_fetch_array($q1)) {
         $hasil[] = array(
             'id' => $r1['id'],
-            'no_surat' => $r1['no_surat'],
-            'dari_klien' => $r1['dari_klien'],
-            'tgl_surat' => $r1['tgl_surat'],
-            'tgl_terima' => $r1['tgl_terima'],
-            'penerima' => $r1['penerima'],
+            'title' => $r1['title'],
             'deskripsi' => $r1['deskripsi'],
-            'subject_id' => $r1['subject_id']
+            'tanggal_input' => $r1['tanggal_input']
         );
     }
     $data['data']['result'] = $hasil;
@@ -99,36 +86,16 @@ function update()
 {
     global $koneksi;
     $id = $_GET['id'];
-    $no_surat = $_POST['no_surat'];
-    $dari_klien = $_POST['dari_klien'];
-    $tgl_surat = $_POST['tgl_surat'];
-    $tgl_terima = $_POST['tgl_terima'];
-    $penerima = $_POST['penerima'];
+    $title = $_POST['title'];
     $deskripsi = $_POST['deskripsi'];
-    $subject_id = $_POST['subject_id'];
-    if ($no_surat) {
-        $set[] = "no_surat='$no_surat'";
-    }
-    if ($dari_klien) {
-        $set[] = "dari_klien='$dari_klien'";
-    }
-    if ($tgl_surat) {
-        $set[] = "tgl_surat='$tgl_surat'";
-    }
-    if ($tgl_terima) {
-        $set[] = "tgl_terima='$tgl_terima'";
-    }
-    if ($penerima) {
-        $set[] = "penerima='$penerima'";
+    if ($title) {
+        $set[] = "title='$title'";
     }
     if ($deskripsi) {
         $set[] = "deskripsi='$deskripsi'";
     }
-    if ($subject_id) {
-        $set[] = "subject_id='$subject_id'";
-    }
     $hasil = "Gagal melakukan update data";
-    if ($no_surat or $dari_klien or $tgl_surat or $tgl_terima or $penerima or $deskripsi or $subject_id) {
+    if ($title or $deskripsi) {
         $sql1 = "update suratins set " . implode(",", $set) . " where id = '$id'";
         $q1 = mysqli_query($koneksi, $sql1);
         if ($q1) {
