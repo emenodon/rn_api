@@ -115,6 +115,7 @@ class Suratin extends Component {
           <TextInput
             style={style.textInput}
             mode="outlined"
+            label="Deskripsi"
             multiline={true}
             numberOfLines={4}
             placeholder="Masukkan Deskripsi"
