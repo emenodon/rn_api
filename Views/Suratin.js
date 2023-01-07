@@ -82,7 +82,6 @@ class Suratin extends Component {
   render() {
     return (
       <View style={style.viewWrapper}>
-        
         <ScrollView style={style.viewData}>
           {this.state.listData.map((val, index) => (
             <View style={style.viewList} key={index}>
